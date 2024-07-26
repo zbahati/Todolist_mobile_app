@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { Button, FlatList, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import Header from './components/header';
+import Form from './components/form';
 
 export default function App() {
   const [todos, setTodos] = useState([
@@ -9,12 +10,19 @@ export default function App() {
     { text: "Drink water", key: '2' },
 
   ])
+
+  const onPressHandler = (key) => {
+    setTodos(prevTodos => {
+      return prevTodos.filter((todos) => todos.key !== key)
+    })
+  }
   return (
     <View style={styles.AppContainer}>
       {/* header */}
       <Header />
       <View style={styles.main}>
         {/* form */}
+        <Form />
         <View style={styles.TodoContainer}>
           <FlatList
             data={todos}
