@@ -1,6 +1,6 @@
 
 import { useState } from 'react';
-import { Button, FlatList, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Alert, Button, FlatList, Keyboard, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 import Header from './components/header';
 import Form from './components/form';
 
@@ -11,33 +11,55 @@ export default function App() {
 
   ])
 
+
+  const handleSubmit = (text) => {
+    if (text.length > 5) {
+      setTodos((prevTodos) => {
+        return [
+          { text: text, key: Math.random().toString() },
+          ...prevTodos
+        ]
+      })
+    } else {
+      Alert.alert("OOPS!", "todo must have atleast 4 characters.", [
+        { text: "Understood", onPress: () => console.log("alert closed") }
+      ])
+    }
+  }
+
+
   const onPressHandler = (key) => {
     setTodos(prevTodos => {
       return prevTodos.filter((todos) => todos.key !== key)
     })
   }
   return (
-    <View style={styles.AppContainer}>
-      {/* header */}
-      <Header />
-      <View style={styles.main}>
-        {/* form */}
-        <Form />
-        <View style={styles.TodoContainer}>
-          <FlatList
-            data={todos}
-            renderItem={({ item }) => (
-              <TouchableOpacity
-                onPress={() => onPressHandler(item.key)}
-                style={styles.Listitem} >
-                <Text style={styles.Todo}>{item.text}</Text>
-              </TouchableOpacity>
-            )}
-          />
+    <TouchableWithoutFeedback onPress={()=> {
+      Keyboard.dismiss()
+    }}>
+      <View style={styles.AppContainer}>
+        {/* header */}
+        <Header />
+        <View style={styles.main}>
+          {/* form */}
+          <Form handleSubmit={handleSubmit} />
+          <View style={styles.TodoContainer}>
+            <FlatList
+              data={todos}
+              renderItem={({ item }) => (
+                <TouchableOpacity
+                  onPress={() => onPressHandler(item.key)}
+                  style={styles.Listitem} >
+                  <Text style={styles.Todo}>{item.text}</Text>
+                </TouchableOpacity>
+              )}
+            />
+          </View>
         </View>
-      </View>
 
-    </View>
+      </View>
+    </TouchableWithoutFeedback>
+
   );
 }
 

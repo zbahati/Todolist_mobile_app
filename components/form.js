@@ -1,18 +1,13 @@
 import { useState } from "react";
 import { Button, StyleSheet, Text, TextInput, View } from "react-native"
 
-const Form = () => {
-
+const Form = ({handleSubmit}) => {
     const [text, setText] = useState('');
 
     const OnchangeHandler = (val) => {
-        console.log(val)
         setText(val)
     }
 
-    const handleSubmit = () => {
-        console.log()
-    }
     return (
         <View style={styles.Form}>
             <TextInput
@@ -20,7 +15,7 @@ const Form = () => {
                 onChangeText={(val) =>OnchangeHandler(val)}
                 placeholder="add Todo"
             />
-            <Button title="Add Todo" handleSubmit={handleSubmit(text)} />
+            <Button title="Add Todo" onPress={() => handleSubmit(text)}/>
         </View>
     )
 }

@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from "react-native";
 const Header = () => {
     return(
         <View style={styles.Header}>
-            <Text style={styles.title}>MY TODO</Text>
+            <Text style={styles.title}>Akazi kumunsi</Text>
         </View>
     )
 }
